@@ -24,9 +24,11 @@ const page = () => {
             })
 
 
-    const onSubmit = ({email, password}: TAuthCredentialsValidator) => {
+    const { mutate, isLoading } = trpc.auth.createPayloadUser.useMutation({})
 
-    }
+    const onSubmit = ({email, password}: TAuthCredentialsValidator) => {
+        mutate({email, password})
+    }  
 
     return (
         <>
@@ -42,9 +44,7 @@ const page = () => {
                     </div>
 
                     <div className="grid gap-6">
-                        <form onSubmit={() => {
-
-                        }}>
+                        <form onSubmit={handleSubmit(onSubmit)}>
                             <div className="grid gap-2">
                                 <div className="grid gap-1 py-2">
                                     <Label htmlFor="email">Email</Label>
@@ -58,7 +58,8 @@ const page = () => {
                                     <Input className={cn({
                                         "focus-visible:ring-red-500": errors.password
                                     })} placeholder="Password"
-                                    {...register("password")}/>
+                                    {...register("password")}
+                                    type="password"/>
                                 </div>
                                 <Button>Sign Up</Button>
                             </div>
