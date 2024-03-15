@@ -1,3 +1,5 @@
+"use client"
+
 import { TQueryValidator } from "@/lib/validators/query-validator"
 import { Product } from "@/payload-types"
 import { trpc } from "@/trpc/client"
