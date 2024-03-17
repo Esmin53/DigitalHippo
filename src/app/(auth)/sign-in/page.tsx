@@ -7,16 +7,14 @@ import { Label } from "@/components/ui/label"
 import { cn } from "@/lib/utils"
 import { ArrowRight } from "lucide-react"
 import Link from "next/link"
-import { useForm } from "react-hook-form"
+import { useForm } from 'react-hook-form';
 import { zodResolver } from "@hookform/resolvers/zod"
 import { toast } from "sonner"
-
 import { AuthCredentialsValidator, TAuthCredentialsValidator } from "@/lib/validators/account-credentials-validator"
 import { trpc } from "@/trpc/client"
-import { ZodError } from "zod"
 import { useRouter, useSearchParams } from "next/navigation"
 
-const page = () => {
+const Page = () => {
     const searchParams = useSearchParams()
     const router = useRouter()
     const isSeller = searchParams.get('as') === 'seller'
@@ -122,4 +120,4 @@ const page = () => {
     )
 }
 
-export default page
+export default Page

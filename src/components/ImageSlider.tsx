@@ -26,7 +26,7 @@ const ImageSlider = ({ urls }: ImageSliderProps) => {
         swiper?.on("slideChange", () => {
             setActiveIndex(activeIndex)
         })
-    }, [swiper, urls])
+    }, [swiper, urls, activeIndex])
 
     const activeStyles = "active:scale-[0.97] grid opacity-100 hover:scale-105 absolute top-1/2 -y-translate-1/2 aspect-square h-8 w-8 place-items-center rounded-full border-2 bg-white border-zinc-200"
     const inactiveStyles = "hidden text-gray-400"
