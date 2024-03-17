@@ -20,6 +20,8 @@ const page = async ({params}: PageProps) => {
 
     const {productId} = params
 
+    console.log(productId)
+
     const BREADCRUMBS = [
         {
             id: 1,
@@ -50,9 +52,11 @@ const page = async ({params}: PageProps) => {
 
     const [product] = products
 
-    const label = PRODUCT_CATEGORIES.find(({ value }) => value === product.category)?.label
+    console.log(products)
 
-    const validUrls = product?.images?.map((image) => (typeof image === "string" ? image : image.image)).filter(Boolean)
+    const label = PRODUCT_CATEGORIES.find(({ value }) => value === product?.category)?.label
+
+    const validUrls = product?.images?.map((image) => (typeof image === "string" ? image : image?.image)).filter(Boolean)
 
     if(!product) return notFound()
 
