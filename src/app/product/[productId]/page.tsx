@@ -52,8 +52,6 @@ const page = async ({params}: PageProps) => {
 
     const [product] = products
 
-    console.log(products)
-
     const label = PRODUCT_CATEGORIES.find(({ value }) => value === product?.category)?.label
 
     const validUrls = product?.images?.map((image) => (typeof image === "string" ? image : image?.image)).filter(Boolean)
