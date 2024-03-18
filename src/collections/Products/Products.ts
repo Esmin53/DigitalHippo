@@ -1,13 +1,48 @@
-import { BeforeChangeHook } from "payload/dist/collections/config/types";
+import { BeforeChangeHook, AfterChangeHook } from "payload/dist/collections/config/types";
 import { PRODUCT_CATEGORIES } from "../../config";
 import { CollectionConfig } from "payload/types";
 import { Product } from "../../payload-types";
 import { stripe } from "../../lib/stripe";
 
+
 const addUser: BeforeChangeHook<Product> = async ({req, data}) => {
   const user = req.user
 
   return {...user, user: user.id}
+}
+
+const syncUser: AfterChangeHook<Product> = async ({
+  req,
+  doc,
+}) => {
+  const fullUser = await req.payload.findByID({
+    collection: 'users',
+    id: req.user.id,
+  })
+
+  if (fullUser && typeof fullUser === 'object') {
+    const { products } = fullUser
+
+    const allIDs = [
+      ...(products?.map((product) =>
+        typeof product === 'object' ? product.id : product
+      ) || []),
+    ]
+
+    const createdProductIDs = allIDs.filter(
+      (id, index) => allIDs.indexOf(id) === index
+    )
+
+    const dataToUpdate = [...createdProductIDs, doc.id]
+
+    await req.payload.update({
+      collection: 'users',
+      id: fullUser.id,
+      data: {
+        products: dataToUpdate,
+      },
+    })
+  }
 }
 
 export const Products: CollectionConfig = {
